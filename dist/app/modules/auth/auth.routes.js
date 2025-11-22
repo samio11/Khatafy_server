@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.authRoutes = void 0;
+const express_1 = require("express");
+const auth_controller_1 = require("./auth.controller");
+const multer_config_1 = require("../../config/multer.config");
+const router = (0, express_1.Router)();
+router.post("/login", auth_controller_1.authController.userLogin);
+router.post("/logout", auth_controller_1.authController.userLogout);
+router.post("/register", multer_config_1.multerUpload.single("file"), auth_controller_1.authController.userRegister);
+exports.authRoutes = router;
