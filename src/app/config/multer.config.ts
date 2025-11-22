@@ -1,0 +1,21 @@
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import { cloudinaryUpload } from "./cloudinary.config";
+import multer from "multer";
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinaryUpload,
+  params: {
+    public_id: (req, file) => {
+      const fileName = file.originalname.toLowerCase();
+      const uniqueFile =
+        Math.random().toString(36).substring(2) +
+        "-" +
+        Date.now() +
+        "-" +
+        fileName;
+      return uniqueFile;
+    },
+  },
+});
+
+export const multerUpload = multer({ storage: storage });
