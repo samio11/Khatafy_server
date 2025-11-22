@@ -14,9 +14,10 @@ export interface IItems {
 }
 
 export interface IBazar {
+  _id?: string;
   mess: Types.ObjectId;
   addedBy: Types.ObjectId;
-  items: IItems;
+  items: IItems[];
   total: number;
   note?: string;
   proof?: string;
