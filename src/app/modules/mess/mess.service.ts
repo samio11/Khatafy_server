@@ -5,6 +5,7 @@ import { User } from "../user/user.model";
 import { IMess } from "./mess.interface";
 import { Mess } from "./mess.model";
 import { sendEmail } from "../../utils/sendEmail";
+import { QueryBuilder } from "../../utils/QueryBuilder";
 
 const createMess = async (payload: IMess) => {
   const result = await Mess.create(payload);
@@ -18,6 +19,34 @@ const getAMessData = async (id: string) => {
     .populate("managers")
     .populate("members");
   return result;
+};
+
+const getAllMess = async (query: Record<string, string>) => {
+  const messQuery = new QueryBuilder(Mess.find(), query);
+  const messData = await messQuery
+    .search(["name"])
+    .fields()
+    .paginate()
+    .sort()
+    .filter();
+  const [data, meta] = await Promise.all([
+    messData.build(),
+    messData.getMeta(),
+  ]);
+  return { data, meta };
+};
+
+const updateMessData = async (id: string, payload: Partial<IMess>) => {
+  const result = await Mess.findByIdAndUpdate(id, payload, { new: true });
+  return result;
+};
+
+const deleteMessData = async (messId: string, managerId: string) => {
+  const existManager = await Mess.findOne({ managers: managerId });
+  if (!existManager)
+    throw new AppError(401, "Manager is not belong to this mess");
+  const result = await Mess.findByIdAndDelete(messId);
+  return "";
 };
 
 const invitedUserToMess = async (userId: string, messId: string) => {
@@ -111,4 +140,7 @@ export const messServices = {
   getAMessData,
   invitedUserToMess,
   shiftManagerRole,
+  getAllMess,
+  updateMessData,
+  deleteMessData,
 };

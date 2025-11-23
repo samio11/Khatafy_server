@@ -1,3 +1,4 @@
+import { JwtPayload } from "jsonwebtoken";
 import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { messServices } from "./mess.service";
@@ -37,12 +38,43 @@ const shiftManagerRole = catchAsync(async (req, res, next) => {
   const { messId } = req?.params;
   const { userId } = req?.body;
   const { id } = req?.user;
-  // console.log(id, messId, userId);
   const result = await messServices.shiftManagerRole(userId, id, messId);
   sendResponse(res, {
     success: true,
     statusCode: 200,
     message: "User Promoted Done",
+    data: result,
+  });
+});
+const getAllMess = catchAsync(async (req, res, next) => {
+  const query = req?.query;
+  const result = await messServices.getAllMess(query as Record<string, string>);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "User Data Retrived Done",
+    data: result,
+  });
+});
+const updateMessData = catchAsync(async (req, res, next) => {
+  const { messId } = req?.params;
+  const payload = req?.body;
+  const result = await messServices.updateMessData(messId, payload);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Mess Data Updated",
+    data: result,
+  });
+});
+const deleteMessData = catchAsync(async (req, res, next) => {
+  const { messId } = req?.params;
+  const { id } = req?.user as JwtPayload;
+  const result = await messServices.deleteMessData(messId, id);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Mess Data Deleted",
     data: result,
   });
 });
@@ -52,4 +84,7 @@ export const messController = {
   getAMessData,
   invitedUserToMess,
   shiftManagerRole,
+  getAllMess,
+  updateMessData,
+  deleteMessData,
 };

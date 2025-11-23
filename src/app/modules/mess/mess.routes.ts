@@ -17,6 +17,18 @@ router.post(
   checkAuth([ERole.manager]),
   messController.shiftManagerRole
 );
+router.get("/", checkAuth([ERole.admin]), messController.getAllMess);
 router.get("/:id", messController.getAMessData);
+
+router.patch(
+  "/update/:messId",
+  checkAuth([ERole.manager]),
+  messController.updateMessData
+);
+router.delete(
+  "/update/:messId",
+  checkAuth([ERole.manager]),
+  messController.deleteMessData
+);
 
 export const messRoutes = router;
