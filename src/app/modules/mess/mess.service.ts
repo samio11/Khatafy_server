@@ -44,4 +44,71 @@ const invitedUserToMess = async (userId: string, messId: string) => {
   return existMess;
 };
 
-export const messServices = { createMess, getAMessData, invitedUserToMess };
+const shiftManagerRole = async (
+  userId: string,
+  managerId: string,
+  messId: string
+) => {
+  const session = await Mess.startSession();
+  session.startTransaction();
+
+  try {
+    const existUser = await User.findById(userId);
+    if (!existUser) throw new AppError(401, "User does not exist");
+
+    const existMess = await Mess.findById(messId);
+    if (!existMess) throw new AppError(401, "Wrong Mess Id");
+
+    if (existMess.managers.toString() !== managerId)
+      throw new AppError(401, "This manager does not belong to this mess");
+
+    const isMember = existMess.members.some((x) => x.toString() === userId);
+    if (!isMember)
+      throw new AppError(401, "The user is not a member of the mess");
+
+    // Update mess manager
+    existMess.managers = new Types.ObjectId(userId);
+    await existMess.save({ session });
+
+    // Update roles
+    await User.findByIdAndUpdate(
+      userId,
+      { role: ERole.manager },
+      { session, new: true }
+    );
+    await User.findByIdAndUpdate(
+      managerId,
+      { role: ERole.member },
+      { session, new: true }
+    );
+
+    // Send email
+    await sendEmail({
+      to: existUser.email,
+      subject: "🎉 You Have Been Promoted to Manager – Khatafy",
+      tempName: "promotedToManager",
+      tempData: {
+        name: existUser.name,
+        messName: existMess.name,
+        year: new Date().getFullYear(),
+      },
+    });
+
+    await session.commitTransaction();
+    session.endSession();
+
+    const updatedMess = await Mess.findById(messId).populate("managers");
+    return updatedMess;
+  } catch (err) {
+    await session.abortTransaction();
+    session.endSession();
+    throw err;
+  }
+};
+
+export const messServices = {
+  createMess,
+  getAMessData,
+  invitedUserToMess,
+  shiftManagerRole,
+};

@@ -12,6 +12,11 @@ router.post(
   checkAuth([ERole.admin, ERole.manager]),
   messController.invitedUserToMess
 );
+router.post(
+  "/shift-manager/:messId",
+  checkAuth([ERole.manager]),
+  messController.shiftManagerRole
+);
 router.get("/:id", messController.getAMessData);
 
 export const messRoutes = router;
