@@ -34,7 +34,7 @@ export const sendEmail = async ({
 }: TSendEmail) => {
   try {
     const tempPath = path.join(__dirname, `templates/${tempName}.ejs`);
-    const html = await ejs.render(tempPath, tempData);
+    const html = await ejs.renderFile(tempPath, tempData);
     const info = await transporter.sendMail({
       to: to,
       subject: subject,

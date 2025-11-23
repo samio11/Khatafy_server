@@ -22,5 +22,16 @@ const getAMessData = catchAsync(async (req, res, next) => {
     data: result,
   });
 });
+const invitedUserToMess = catchAsync(async (req, res, next) => {
+  const { messId } = req?.params;
+  const { userId } = req?.body;
+  const result = await messServices.invitedUserToMess(userId, messId);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "User Inviting Done",
+    data: result,
+  });
+});
 
-export const messController = { createMess, getAMessData };
+export const messController = { createMess, getAMessData, invitedUserToMess };
