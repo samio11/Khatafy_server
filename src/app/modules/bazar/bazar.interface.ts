@@ -22,5 +22,5 @@ export interface IBazar {
   note?: string;
   proof?: string;
   approved: boolean;
-  approvedBy: Types.ObjectId;
+  approvedBy?: Types.ObjectId;
 }

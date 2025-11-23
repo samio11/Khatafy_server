@@ -20,7 +20,7 @@ const bazarSchema = new Schema<IBazar>(
     note: { type: String },
     proof: { type: String },
     approved: { type: Boolean, default: false },
-    approvedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    approvedBy: { type: Schema.Types.ObjectId, ref: "User" },
   },
   { versionKey: false, timestamps: true }
 );
