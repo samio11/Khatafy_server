@@ -29,7 +29,7 @@ const transporter = nodemailer_1.default.createTransport({
 const sendEmail = ({ to, subject, tempName, tempData, attachments, }) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const tempPath = path_1.default.join(__dirname, `templates/${tempName}.ejs`);
-        const html = yield ejs_1.default.render(tempPath, tempData);
+        const html = yield ejs_1.default.renderFile(tempPath, tempData);
         const info = yield transporter.sendMail({
             to: to,
             subject: subject,

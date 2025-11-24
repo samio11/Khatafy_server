@@ -17,6 +17,6 @@ const bazarSchema = new mongoose_1.Schema({
     note: { type: String },
     proof: { type: String },
     approved: { type: Boolean, default: false },
-    approvedBy: { type: mongoose_1.Schema.Types.ObjectId, ref: "User", required: true },
+    approvedBy: { type: mongoose_1.Schema.Types.ObjectId, ref: "User" },
 }, { versionKey: false, timestamps: true });
 exports.Bazar = (0, mongoose_1.model)("Bazar", bazarSchema);

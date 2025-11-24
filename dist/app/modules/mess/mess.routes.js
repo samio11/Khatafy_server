@@ -1,0 +1,16 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.messRoutes = void 0;
+const express_1 = require("express");
+const user_interface_1 = require("../user/user.interface");
+const mess_controller_1 = require("./mess.controller");
+const checkAuth_1 = require("../../middlewares/checkAuth");
+const router = (0, express_1.Router)();
+router.post("/create", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.admin]), mess_controller_1.messController.createMess);
+router.post("/invite/:messId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.admin, user_interface_1.ERole.manager]), mess_controller_1.messController.invitedUserToMess);
+router.post("/shift-manager/:messId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.manager]), mess_controller_1.messController.shiftManagerRole);
+router.get("/", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.admin]), mess_controller_1.messController.getAllMess);
+router.get("/:id", mess_controller_1.messController.getAMessData);
+router.patch("/update/:messId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.manager]), mess_controller_1.messController.updateMessData);
+router.delete("/update/:messId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.manager]), mess_controller_1.messController.deleteMessData);
+exports.messRoutes = router;
