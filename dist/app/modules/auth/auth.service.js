@@ -34,4 +34,12 @@ const userRegister = (payload) => __awaiter(void 0, void 0, void 0, function* ()
     const result = yield user_model_1.User.create(payload);
     return result;
 });
-exports.authServices = { userLogin, userRegister };
+const kickUser = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.User.findByIdAndUpdate(userId, { isKicked: true }, { new: true });
+    return result;
+});
+const unKickUser = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.User.findByIdAndUpdate(userId, { isKicked: false }, { new: true });
+    return result;
+});
+exports.authServices = { userLogin, userRegister, kickUser, unKickUser };

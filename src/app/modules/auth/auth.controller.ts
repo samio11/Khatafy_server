@@ -30,6 +30,26 @@ const userRegister = catchAsync(async (req, res, next) => {
     data: result,
   });
 });
+const kickUser = catchAsync(async (req, res, next) => {
+  const { userId } = req?.params;
+  const result = await authServices.kickUser(userId);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "User is Kicked",
+    data: result,
+  });
+});
+const unKickUser = catchAsync(async (req, res, next) => {
+  const { userId } = req?.params;
+  const result = await authServices.unKickUser(userId);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "User status changed to unKicked",
+    data: result,
+  });
+});
 
 const userLogout = catchAsync(async (req, res, next) => {
   res.clearCookie("accessToken", {
@@ -51,4 +71,10 @@ const userLogout = catchAsync(async (req, res, next) => {
   });
 });
 
-export const authController = { userLogin, userRegister, userLogout };
+export const authController = {
+  userLogin,
+  userRegister,
+  userLogout,
+  kickUser,
+  unKickUser,
+};

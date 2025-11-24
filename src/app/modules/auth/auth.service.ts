@@ -23,4 +23,21 @@ const userRegister = async (payload: IUser) => {
   return result;
 };
 
-export const authServices = { userLogin, userRegister };
+const kickUser = async (userId: string) => {
+  const result = await User.findByIdAndUpdate(
+    userId,
+    { isKicked: true },
+    { new: true }
+  );
+  return result;
+};
+const unKickUser = async (userId: string) => {
+  const result = await User.findByIdAndUpdate(
+    userId,
+    { isKicked: false },
+    { new: true }
+  );
+  return result;
+};
+
+export const authServices = { userLogin, userRegister, kickUser, unKickUser };

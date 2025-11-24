@@ -38,6 +38,26 @@ const userRegister = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(
         data: result,
     });
 }));
+const kickUser = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req === null || req === void 0 ? void 0 : req.params;
+    const result = yield auth_service_1.authServices.kickUser(userId);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        statusCode: 200,
+        message: "User is Kicked",
+        data: result,
+    });
+}));
+const unKickUser = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req === null || req === void 0 ? void 0 : req.params;
+    const result = yield auth_service_1.authServices.unKickUser(userId);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        statusCode: 200,
+        message: "User status changed to unKicked",
+        data: result,
+    });
+}));
 const userLogout = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     res.clearCookie("accessToken", {
         httpOnly: true,
@@ -56,4 +76,10 @@ const userLogout = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(vo
         data: "",
     });
 }));
-exports.authController = { userLogin, userRegister, userLogout };
+exports.authController = {
+    userLogin,
+    userRegister,
+    userLogout,
+    kickUser,
+    unKickUser,
+};
