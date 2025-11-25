@@ -25,7 +25,7 @@ router.put(
 router.delete(
   "/delete-item/:messId",
   checkAuth([ERole.member]),
-  bazarController.updatedBazar
+  bazarController.deleteBazar
 );
 router.post(
   "/change-status/:bazarId",

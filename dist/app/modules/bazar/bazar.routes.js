@@ -10,7 +10,7 @@ const router = (0, express_1.Router)();
 router.post("/create/:messId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.member]), multer_config_1.multerUpload.single("file"), bazar_controller_1.bazarController.createBazar);
 router.post("/add-item/:messId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.member]), bazar_controller_1.bazarController.addItemToBazar);
 router.put("/update-item/:messId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.member]), bazar_controller_1.bazarController.updatedBazar);
-router.delete("/delete-item/:messId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.member]), bazar_controller_1.bazarController.updatedBazar);
+router.delete("/delete-item/:messId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.member]), bazar_controller_1.bazarController.deleteBazar);
 router.post("/change-status/:bazarId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.manager]), bazar_controller_1.bazarController.changeVerifyOfBazar);
 router.get("/bazar-all/:messId", bazar_controller_1.bazarController.getAllBazarInfoByMess);
 router.get("/bazar/:bazarId", bazar_controller_1.bazarController.getABazarInfo);
