@@ -26,7 +26,7 @@ router.patch(
   messController.updateMessData
 );
 router.delete(
-  "/update/:messId",
+  "/delete/:messId",
   checkAuth([ERole.manager]),
   messController.deleteMessData
 );
