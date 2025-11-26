@@ -5,10 +5,10 @@ import { notFound } from "./app/middlewares/notFound";
 import { rootRoute } from "./app/routes";
 import cookieParser from "cookie-parser";
 const app: Application = express();
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use("/api/v1", rootRoute);
-app.use(cors());
 
 app.get("/", async (req: Request, res: Response) => {
   res.status(200).json({
