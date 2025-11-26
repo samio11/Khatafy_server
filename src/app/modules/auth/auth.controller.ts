@@ -50,6 +50,36 @@ const unKickUser = catchAsync(async (req, res, next) => {
     data: result,
   });
 });
+const changeStatusToManager = catchAsync(async (req, res, next) => {
+  const { userId } = req?.params;
+  const result = await authServices.unKickUser(userId);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "User status changed to Manager",
+    data: result,
+  });
+});
+const getAllUser = catchAsync(async (req, res, next) => {
+  const query = req?.query;
+  const result = await authServices.getAllUser(query as Record<string, string>);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Get All User Data",
+    data: result,
+  });
+});
+const getAUser = catchAsync(async (req, res, next) => {
+  const { id } = req?.user;
+  const result = await authServices.getAUser(id);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Get A User Data",
+    data: result,
+  });
+});
 
 const userLogout = catchAsync(async (req, res, next) => {
   res.clearCookie("accessToken", {
@@ -77,4 +107,7 @@ export const authController = {
   userLogout,
   kickUser,
   unKickUser,
+  changeStatusToManager,
+  getAUser,
+  getAllUser,
 };

@@ -58,6 +58,36 @@ const unKickUser = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(vo
         data: result,
     });
 }));
+const changeStatusToManager = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req === null || req === void 0 ? void 0 : req.params;
+    const result = yield auth_service_1.authServices.unKickUser(userId);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        statusCode: 200,
+        message: "User status changed to Manager",
+        data: result,
+    });
+}));
+const getAllUser = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = req === null || req === void 0 ? void 0 : req.query;
+    const result = yield auth_service_1.authServices.getAllUser(query);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        statusCode: 200,
+        message: "Get All User Data",
+        data: result,
+    });
+}));
+const getAUser = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req === null || req === void 0 ? void 0 : req.user;
+    const result = yield auth_service_1.authServices.getAUser(id);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        statusCode: 200,
+        message: "Get A User Data",
+        data: result,
+    });
+}));
 const userLogout = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     res.clearCookie("accessToken", {
         httpOnly: true,
@@ -82,4 +112,7 @@ exports.authController = {
     userLogout,
     kickUser,
     unKickUser,
+    changeStatusToManager,
+    getAUser,
+    getAllUser,
 };

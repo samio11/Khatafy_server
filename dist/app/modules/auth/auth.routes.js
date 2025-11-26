@@ -12,4 +12,7 @@ router.post("/logout", auth_controller_1.authController.userLogout);
 router.post("/register", multer_config_1.multerUpload.single("file"), auth_controller_1.authController.userRegister);
 router.post("/kick/:userId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.admin]), auth_controller_1.authController.kickUser);
 router.post("/un-kick/:userId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.admin]), auth_controller_1.authController.unKickUser);
+router.post("/assign-manager/:userId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.admin]), auth_controller_1.authController.changeStatusToManager);
+router.get("/users", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.admin]), auth_controller_1.authController.getAllUser);
+router.get("/user", (0, checkAuth_1.checkAuth)([...Object.values(user_interface_1.ERole)]), auth_controller_1.authController.getAUser);
 exports.authRoutes = router;

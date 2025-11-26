@@ -20,5 +20,17 @@ router.post(
   checkAuth([ERole.admin]),
   authController.unKickUser
 );
+router.post(
+  "/assign-manager/:userId",
+  checkAuth([ERole.admin]),
+  authController.changeStatusToManager
+);
+
+router.get("/users", checkAuth([ERole.admin]), authController.getAllUser);
+router.get(
+  "/user",
+  checkAuth([...Object.values(ERole)]),
+  authController.getAUser
+);
 
 export const authRoutes = router;
