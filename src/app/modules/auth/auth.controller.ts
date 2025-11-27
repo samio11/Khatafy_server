@@ -1,3 +1,4 @@
+import { JwtPayload } from "jsonwebtoken";
 import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { setCookie } from "../../utils/setCookie";
@@ -80,6 +81,35 @@ const getAUser = catchAsync(async (req, res, next) => {
     data: result,
   });
 });
+const getAdminState = catchAsync(async (req, res, next) => {
+  const result = await authServices.getAdminState();
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Admin State Done",
+    data: result,
+  });
+});
+const getAdminUserState = catchAsync(async (req, res, next) => {
+  const result = await authServices.adminUserState();
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Admin User State Done",
+    data: result,
+  });
+});
+const changeUserData = catchAsync(async (req, res, next) => {
+  const { id } = req?.user as JwtPayload;
+  const payload = req?.body;
+  const result = await authServices.changeUserData(id, payload);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "User Data Updated",
+    data: result,
+  });
+});
 
 const userLogout = catchAsync(async (req, res, next) => {
   res.clearCookie("accessToken", {
@@ -110,4 +140,7 @@ export const authController = {
   changeStatusToManager,
   getAUser,
   getAllUser,
+  getAdminState,
+  getAdminUserState,
+  changeUserData,
 };

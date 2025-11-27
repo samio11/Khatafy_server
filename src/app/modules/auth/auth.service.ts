@@ -1,6 +1,7 @@
 import { AppError } from "../../errors/AppError";
 import { QueryBuilder } from "../../utils/QueryBuilder";
 import { createUserToken } from "../../utils/userToken";
+import { Bazar } from "../bazar/bazar.model";
 import { ERole, IUser } from "../user/user.interface";
 import { User } from "../user/user.model";
 import bcrypt from "bcrypt";
@@ -75,6 +76,41 @@ const getAUser = async (userId: string) => {
   return result;
 };
 
+const getAdminState = async () => {
+  const totalUserP = User.countDocuments();
+  const totalBazarP = Bazar.countDocuments();
+  const totalMessP = Bazar.countDocuments();
+  const [totalUser, totalBazar, totalMess] = await Promise.all([
+    totalUserP,
+    totalBazarP,
+    totalMessP,
+  ]);
+  return {
+    totalUser,
+    totalBazar,
+    totalMess,
+  };
+};
+
+const adminUserState = async () => {
+  const result = await User.aggregate([
+    {
+      $group: {
+        _id: "$role",
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+  return result;
+};
+
+const changeUserData = async (userId: string, payload: Partial<IUser>) => {
+  const existUser = await User.findById(userId);
+  if (!existUser) throw new AppError(401, "User is not Exists");
+  const result = await User.findByIdAndUpdate(userId, payload, { new: true });
+  return result;
+};
+
 export const authServices = {
   userLogin,
   userRegister,
@@ -83,4 +119,7 @@ export const authServices = {
   changeStatusToManager,
   getAllUser,
   getAUser,
+  getAdminState,
+  adminUserState,
+  changeUserData,
 };

@@ -25,12 +25,27 @@ router.post(
   checkAuth([ERole.admin]),
   authController.changeStatusToManager
 );
+router.put(
+  "/user/update",
+  checkAuth([...Object.values(ERole)]),
+  authController.changeUserData
+);
 
 router.get("/users", checkAuth([ERole.admin]), authController.getAllUser);
 router.get(
   "/user",
   checkAuth([...Object.values(ERole)]),
   authController.getAUser
+);
+router.get(
+  "/admin-state",
+  checkAuth([ERole.admin]),
+  authController.getAdminState
+);
+router.get(
+  "/admin-user",
+  checkAuth([ERole.admin]),
+  authController.getAdminUserState
 );
 
 export const authRoutes = router;
