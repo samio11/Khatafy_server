@@ -17,7 +17,11 @@ router.post(
   checkAuth([ERole.manager]),
   messController.shiftManagerRole
 );
-router.get("/", checkAuth([ERole.admin]), messController.getAllMess);
+router.get(
+  "/",
+  checkAuth([ERole.admin, ERole.manager]),
+  messController.getAllMess
+);
 router.get("/:id", messController.getAMessData);
 
 router.patch(

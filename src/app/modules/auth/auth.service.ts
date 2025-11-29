@@ -60,7 +60,7 @@ const getAllUser = async (query: Record<string, string>) => {
   const userQuery = new QueryBuilder(User.find(), query);
   const userData = await userQuery
     .filter()
-    .search(["email", "name"])
+    .search(["email", "name", "role"])
     .sort()
     .paginate()
     .fields();
