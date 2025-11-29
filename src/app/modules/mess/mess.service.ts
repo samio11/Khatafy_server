@@ -30,7 +30,7 @@ const getAllMess = async (query: Record<string, string>) => {
     .sort()
     .filter();
   const [data, meta] = await Promise.all([
-    messData.build(),
+    messData.build().populate("managers").populate("members"),
     messData.getMeta(),
   ]);
   return { data, meta };

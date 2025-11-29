@@ -105,6 +105,7 @@ const adminUserState = async () => {
 };
 
 const changeUserData = async (userId: string, payload: Partial<IUser>) => {
+  console.log(userId, payload);
   const existUser = await User.findById(userId);
   if (!existUser) throw new AppError(401, "User is not Exists");
   const result = await User.findByIdAndUpdate(userId, payload, { new: true });
