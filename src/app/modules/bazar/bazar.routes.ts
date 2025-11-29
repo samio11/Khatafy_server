@@ -32,7 +32,7 @@ router.post(
   checkAuth([ERole.manager]),
   bazarController.changeVerifyOfBazar
 );
-
+router.get("/bazar-all", bazarController.getAllBazar);
 router.get("/bazar-all/:messId", bazarController.getAllBazarInfoByMess);
 router.get("/bazar/:bazarId", bazarController.getABazarInfo);
 

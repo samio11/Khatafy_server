@@ -29,6 +29,21 @@ const getABazarInfo = async (bazarId: string) => {
   return result;
 };
 
+const getAllBazar = async (query: Record<string, string>) => {
+  const bazarQuery = new QueryBuilder(Bazar.find(), query);
+  const bazarData = bazarQuery
+    .filter()
+    .search(["note"])
+    .sort()
+    .paginate()
+    .fields();
+  const [data, meta] = await Promise.all([
+    bazarData.build().populate("mess").populate("approvedBy"),
+    bazarData.getMeta(),
+  ]);
+  return { data, meta };
+};
+
 const addItemToBazar = async (
   payload: IItems,
   userId: string,
@@ -82,4 +97,5 @@ export const bazarServices = {
   updatedBazar,
   deleteBazar,
   changeVerifyOfBazar,
+  getAllBazar,
 };

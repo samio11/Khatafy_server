@@ -102,6 +102,20 @@ const changeVerifyOfBazar = catchAsync(
     });
   }
 );
+const getAllBazar = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const query = req?.query;
+    const result = await bazarServices.getAllBazar(
+      query as Record<string, string>
+    );
+    sendResponse(res, {
+      success: true,
+      statusCode: 200,
+      message: "Bazar Data Getted",
+      data: result,
+    });
+  }
+);
 
 export const bazarController = {
   createBazar,
@@ -111,4 +125,5 @@ export const bazarController = {
   updatedBazar,
   deleteBazar,
   changeVerifyOfBazar,
+  getAllBazar,
 };
