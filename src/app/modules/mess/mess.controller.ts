@@ -101,6 +101,18 @@ export const getManagerState = catchAsync(async (req, res) => {
     data: result,
   });
 });
+export const getMemberMess = catchAsync(async (req, res) => {
+  const { id } = req.user as JwtPayload;
+  // console.log(id);
+  const result = await messServices.getMemberMess(id);
+
+  return sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Member Mess Details Getted",
+    data: result,
+  });
+});
 
 export const messController = {
   createMess,
@@ -112,4 +124,5 @@ export const messController = {
   deleteMessData,
   removeMemberFromMess,
   getManagerState,
+  getMemberMess,
 };

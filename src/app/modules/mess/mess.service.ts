@@ -182,6 +182,17 @@ const getManagerStateService = async (managerId: string) => {
 
   return result;
 };
+const getMemberMess = async (memberId: string) => {
+  if (!Types.ObjectId.isValid(memberId)) {
+    throw new Error("Invalid member ID");
+  }
+
+  const messes = await Mess.find({ members: new Types.ObjectId(memberId) })
+    .populate("managers", "name email")
+    .populate("members", "name email");
+
+  return messes;
+};
 
 export const messServices = {
   createMess,
@@ -193,4 +204,5 @@ export const messServices = {
   deleteMessData,
   removeMemberFromMess,
   getManagerStateService,
+  getMemberMess,
 };

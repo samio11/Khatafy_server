@@ -22,7 +22,6 @@ router.get(
   checkAuth([ERole.admin, ERole.manager]),
   messController.getAllMess
 );
-router.get("/:id", messController.getAMessData);
 
 router.patch(
   "/update/:messId",
@@ -46,5 +45,12 @@ router.get(
   checkAuth([ERole.manager]),
   messController.getManagerState
 );
+
+router.get(
+  "/get-member",
+  checkAuth([ERole.member]),
+  messController.getMemberMess
+);
+router.get("/:id", messController.getAMessData);
 
 export const messRoutes = router;
