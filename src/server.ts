@@ -17,9 +17,7 @@ async function startServer() {
   }
 }
 
-(async () => {
-  await startServer();
-})();
+startServer();
 
 process.on("unhandledRejection", (err) => {
   console.log("Unhandled Rejection", err);

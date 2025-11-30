@@ -30,9 +30,7 @@ function startServer() {
         }
     });
 }
-(() => __awaiter(void 0, void 0, void 0, function* () {
-    yield startServer();
-}))();
+startServer();
 process.on("unhandledRejection", (err) => {
     console.log("Unhandled Rejection", err);
     if (server) {

@@ -99,6 +99,20 @@ const getBazarsByManager = (managerId) => __awaiter(void 0, void 0, void 0, func
         bazars,
     };
 });
+const getAllBazarForMember = (query, memberId) => __awaiter(void 0, void 0, void 0, function* () {
+    const messQuery = new QueryBuilder_1.QueryBuilder(bazar_model_1.Bazar.find({ addedBy: memberId }), query);
+    const messData = yield messQuery
+        .search(["note"])
+        .fields()
+        .paginate()
+        .sort()
+        .filter();
+    const [data, meta] = yield Promise.all([
+        messData.build().populate("mess"),
+        messData.getMeta(),
+    ]);
+    return { data, meta };
+});
 exports.bazarServices = {
     createBazar: exports.createBazar,
     getAllBazarInfoByMess,
@@ -109,4 +123,5 @@ exports.bazarServices = {
     changeVerifyOfBazar,
     getAllBazar,
     getBazarsByManager,
+    getAllBazarForMember,
 };

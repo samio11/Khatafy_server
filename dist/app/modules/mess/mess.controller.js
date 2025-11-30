@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.messController = exports.getManagerState = void 0;
+exports.messController = exports.getMemberMess = exports.getManagerState = void 0;
 const catchAsync_1 = require("../../utils/catchAsync");
 const sendResponse_1 = require("../../utils/sendResponse");
 const mess_service_1 = require("./mess.service");
@@ -108,6 +108,17 @@ exports.getManagerState = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(v
         data: result,
     });
 }));
+exports.getMemberMess = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.user;
+    // console.log(id);
+    const result = yield mess_service_1.messServices.getMemberMess(id);
+    return (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        statusCode: 200,
+        message: "Member Mess Details Getted",
+        data: result,
+    });
+}));
 exports.messController = {
     createMess,
     getAMessData,
@@ -118,4 +129,5 @@ exports.messController = {
     deleteMessData,
     removeMemberFromMess,
     getManagerState: exports.getManagerState,
+    getMemberMess: exports.getMemberMess,
 };

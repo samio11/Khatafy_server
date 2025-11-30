@@ -160,6 +160,15 @@ const getManagerStateService = (managerId) => __awaiter(void 0, void 0, void 0, 
     }
     return result;
 });
+const getMemberMess = (memberId) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!mongoose_1.Types.ObjectId.isValid(memberId)) {
+        throw new Error("Invalid member ID");
+    }
+    const messes = yield mess_model_1.Mess.find({ members: new mongoose_1.Types.ObjectId(memberId) })
+        .populate("managers", "name email")
+        .populate("members", "name email");
+    return messes;
+});
 exports.messServices = {
     createMess,
     getAMessData,
@@ -170,4 +179,5 @@ exports.messServices = {
     deleteMessData,
     removeMemberFromMess,
     getManagerStateService,
+    getMemberMess,
 };

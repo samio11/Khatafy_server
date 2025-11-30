@@ -112,6 +112,17 @@ const getBazarsByManager = (0, catchAsync_1.catchAsync)((req, res, next) => __aw
         data: result,
     });
 }));
+const getAllBazarForMember = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = (req === null || req === void 0 ? void 0 : req.query) || "";
+    const { id } = req === null || req === void 0 ? void 0 : req.user;
+    const result = yield bazar_services_1.bazarServices.getAllBazarForMember(query, id);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        statusCode: 200,
+        message: "Bazar Data Getted for Member",
+        data: result,
+    });
+}));
 exports.bazarController = {
     createBazar,
     getAllBazarInfoByMess,
@@ -122,4 +133,5 @@ exports.bazarController = {
     changeVerifyOfBazar,
     getAllBazar,
     getBazarsByManager,
+    getAllBazarForMember,
 };

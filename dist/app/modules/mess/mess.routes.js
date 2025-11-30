@@ -10,9 +10,10 @@ router.post("/create", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.admin]
 router.post("/invite/:messId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.admin, user_interface_1.ERole.manager]), mess_controller_1.messController.invitedUserToMess);
 router.post("/shift-manager/:messId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.manager]), mess_controller_1.messController.shiftManagerRole);
 router.get("/", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.admin, user_interface_1.ERole.manager]), mess_controller_1.messController.getAllMess);
-router.get("/:id", mess_controller_1.messController.getAMessData);
 router.patch("/update/:messId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.manager]), mess_controller_1.messController.updateMessData);
 router.delete("/delete/:messId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.manager]), mess_controller_1.messController.deleteMessData);
 router.post("/remove-member-mess", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.manager]), mess_controller_1.messController.removeMemberFromMess);
 router.get("/manager/state", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.manager]), mess_controller_1.messController.getManagerState);
+router.get("/get-member", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.member]), mess_controller_1.messController.getMemberMess);
+router.get("/:id", mess_controller_1.messController.getAMessData);
 exports.messRoutes = router;
