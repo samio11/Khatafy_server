@@ -39,7 +39,7 @@ const getAllMess = (query) => __awaiter(void 0, void 0, void 0, function* () {
         .sort()
         .filter();
     const [data, meta] = yield Promise.all([
-        messData.build(),
+        messData.build().populate("managers").populate("members"),
         messData.getMeta(),
     ]);
     return { data, meta };
@@ -123,6 +123,17 @@ const shiftManagerRole = (userId, managerId, messId) => __awaiter(void 0, void 0
         throw err;
     }
 });
+const removeMemberFromMess = (messId, userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const existMess = yield mess_model_1.Mess.findById(messId);
+    if (!existMess)
+        throw new AppError_1.AppError(401, "Mess is not exist");
+    const existUser = yield user_model_1.User.findById(userId);
+    if (!existUser)
+        throw new AppError_1.AppError(401, "User is not exist");
+    // $pull removes matching element from an array
+    const updatedMess = yield mess_model_1.Mess.findByIdAndUpdate(messId, { $pull: { members: userId } }, { new: true });
+    return updatedMess;
+});
 exports.messServices = {
     createMess,
     getAMessData,
@@ -131,4 +142,5 @@ exports.messServices = {
     getAllMess,
     updateMessData,
     deleteMessData,
+    removeMemberFromMess,
 };

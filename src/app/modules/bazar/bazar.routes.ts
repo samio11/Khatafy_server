@@ -35,5 +35,10 @@ router.post(
 router.get("/bazar-all", bazarController.getAllBazar);
 router.get("/bazar-all/:messId", bazarController.getAllBazarInfoByMess);
 router.get("/bazar/:bazarId", bazarController.getABazarInfo);
+router.get(
+  "/get-bazar-manager",
+  checkAuth([ERole.manager]),
+  bazarController.getBazarsByManager
+);
 
 export const bazarRoutes = router;

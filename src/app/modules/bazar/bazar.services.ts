@@ -4,6 +4,7 @@ import { QueryBuilder } from "../../utils/QueryBuilder";
 import { Mess } from "../mess/mess.model";
 import { IBazar, IItems } from "./bazar.interface";
 import { Bazar } from "./bazar.model";
+import { User } from "../user/user.model";
 
 export const createBazar = async (
   payload: IBazar,
@@ -89,6 +90,20 @@ const changeVerifyOfBazar = async (bazarId: string, managerId: string) => {
   return isUserValid;
 };
 
+const getBazarsByManager = async (managerId: string) => {
+  const messList = await Mess.find({ managers: managerId });
+  if (messList.length === 0) {
+    throw new AppError(401, "No mess found for this manager");
+  }
+  const messIds = messList.map((m) => m._id);
+  const bazars = await Bazar.find({ mess: { $in: messIds } }).sort({
+    createdAt: -1,
+  });
+  return {
+    bazars,
+  };
+};
+
 export const bazarServices = {
   createBazar,
   getAllBazarInfoByMess,
@@ -98,4 +113,5 @@ export const bazarServices = {
   deleteBazar,
   changeVerifyOfBazar,
   getAllBazar,
+  getBazarsByManager,
 };

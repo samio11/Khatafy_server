@@ -116,6 +116,18 @@ const getAllBazar = catchAsync(
     });
   }
 );
+const getBazarsByManager = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req?.user as JwtPayload;
+    const result = await bazarServices.getAllBazar(id);
+    sendResponse(res, {
+      success: true,
+      statusCode: 200,
+      message: "Bazar Data Getted",
+      data: result,
+    });
+  }
+);
 
 export const bazarController = {
   createBazar,
@@ -126,4 +138,5 @@ export const bazarController = {
   deleteBazar,
   changeVerifyOfBazar,
   getAllBazar,
+  getBazarsByManager,
 };

@@ -13,6 +13,9 @@ router.post("/register", multer_config_1.multerUpload.single("file"), auth_contr
 router.post("/kick/:userId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.admin]), auth_controller_1.authController.kickUser);
 router.post("/un-kick/:userId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.admin]), auth_controller_1.authController.unKickUser);
 router.post("/assign-manager/:userId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.admin]), auth_controller_1.authController.changeStatusToManager);
-router.get("/users", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.admin]), auth_controller_1.authController.getAllUser);
+router.put("/user/update", (0, checkAuth_1.checkAuth)([...Object.values(user_interface_1.ERole)]), auth_controller_1.authController.changeUserData);
+router.get("/users", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.admin, user_interface_1.ERole.manager]), auth_controller_1.authController.getAllUser);
 router.get("/user", (0, checkAuth_1.checkAuth)([...Object.values(user_interface_1.ERole)]), auth_controller_1.authController.getAUser);
+router.get("/admin-state", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.admin]), auth_controller_1.authController.getAdminState);
+router.get("/admin-user", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.admin]), auth_controller_1.authController.getAdminUserState);
 exports.authRoutes = router;

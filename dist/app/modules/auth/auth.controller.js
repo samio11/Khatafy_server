@@ -88,6 +88,35 @@ const getAUser = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void
         data: result,
     });
 }));
+const getAdminState = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield auth_service_1.authServices.getAdminState();
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        statusCode: 200,
+        message: "Admin State Done",
+        data: result,
+    });
+}));
+const getAdminUserState = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield auth_service_1.authServices.adminUserState();
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        statusCode: 200,
+        message: "Admin User State Done",
+        data: result,
+    });
+}));
+const changeUserData = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req === null || req === void 0 ? void 0 : req.user;
+    const payload = req === null || req === void 0 ? void 0 : req.body;
+    const result = yield auth_service_1.authServices.changeUserData(id, payload);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        statusCode: 200,
+        message: "User Data Updated",
+        data: result,
+    });
+}));
 const userLogout = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     res.clearCookie("accessToken", {
         httpOnly: true,
@@ -115,4 +144,7 @@ exports.authController = {
     changeStatusToManager,
     getAUser,
     getAllUser,
+    getAdminState,
+    getAdminUserState,
+    changeUserData,
 };

@@ -92,6 +92,26 @@ const changeVerifyOfBazar = (0, catchAsync_1.catchAsync)((req, res, next) => __a
         data: result,
     });
 }));
+const getAllBazar = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = req === null || req === void 0 ? void 0 : req.query;
+    const result = yield bazar_services_1.bazarServices.getAllBazar(query);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        statusCode: 200,
+        message: "Bazar Data Getted",
+        data: result,
+    });
+}));
+const getBazarsByManager = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req === null || req === void 0 ? void 0 : req.user;
+    const result = yield bazar_services_1.bazarServices.getAllBazar(id);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        statusCode: 200,
+        message: "Bazar Data Getted",
+        data: result,
+    });
+}));
 exports.bazarController = {
     createBazar,
     getAllBazarInfoByMess,
@@ -100,4 +120,6 @@ exports.bazarController = {
     updatedBazar,
     deleteBazar,
     changeVerifyOfBazar,
+    getAllBazar,
+    getBazarsByManager,
 };

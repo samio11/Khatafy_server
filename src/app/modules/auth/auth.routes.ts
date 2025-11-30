@@ -31,7 +31,11 @@ router.put(
   authController.changeUserData
 );
 
-router.get("/users", checkAuth([ERole.admin]), authController.getAllUser);
+router.get(
+  "/users",
+  checkAuth([ERole.admin, ERole.manager]),
+  authController.getAllUser
+);
 router.get(
   "/user",
   checkAuth([...Object.values(ERole)]),

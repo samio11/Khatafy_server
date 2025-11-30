@@ -12,6 +12,8 @@ router.post("/add-item/:messId", (0, checkAuth_1.checkAuth)([user_interface_1.ER
 router.put("/update-item/:messId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.member]), bazar_controller_1.bazarController.updatedBazar);
 router.delete("/delete-item/:messId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.member]), bazar_controller_1.bazarController.deleteBazar);
 router.post("/change-status/:bazarId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.manager]), bazar_controller_1.bazarController.changeVerifyOfBazar);
+router.get("/bazar-all", bazar_controller_1.bazarController.getAllBazar);
 router.get("/bazar-all/:messId", bazar_controller_1.bazarController.getAllBazarInfoByMess);
 router.get("/bazar/:bazarId", bazar_controller_1.bazarController.getABazarInfo);
+router.get("/get-bazar-manager", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.manager]), bazar_controller_1.bazarController.getBazarsByManager);
 exports.bazarRoutes = router;

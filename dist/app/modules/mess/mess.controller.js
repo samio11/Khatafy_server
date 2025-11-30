@@ -88,6 +88,16 @@ const deleteMessData = (0, catchAsync_1.catchAsync)((req, res, next) => __awaite
         data: result,
     });
 }));
+const removeMemberFromMess = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { messId, userId } = req === null || req === void 0 ? void 0 : req.body;
+    const result = yield mess_service_1.messServices.removeMemberFromMess(messId, userId);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        statusCode: 200,
+        message: "Mess User is deleted",
+        data: result,
+    });
+}));
 exports.messController = {
     createMess,
     getAMessData,
@@ -96,4 +106,5 @@ exports.messController = {
     getAllMess,
     updateMessData,
     deleteMessData,
+    removeMemberFromMess,
 };

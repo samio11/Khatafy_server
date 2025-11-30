@@ -135,6 +135,21 @@ const shiftManagerRole = async (
   }
 };
 
+const removeMemberFromMess = async (messId: string, userId: string) => {
+  const existMess = await Mess.findById(messId);
+  if (!existMess) throw new AppError(401, "Mess is not exist");
+  const existUser = await User.findById(userId);
+  if (!existUser) throw new AppError(401, "User is not exist");
+  // $pull removes matching element from an array
+  const updatedMess = await Mess.findByIdAndUpdate(
+    messId,
+    { $pull: { members: userId } },
+    { new: true }
+  );
+
+  return updatedMess;
+};
+
 export const messServices = {
   createMess,
   getAMessData,
@@ -143,4 +158,5 @@ export const messServices = {
   getAllMess,
   updateMessData,
   deleteMessData,
+  removeMemberFromMess,
 };

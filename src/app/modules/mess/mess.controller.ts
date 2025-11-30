@@ -78,6 +78,16 @@ const deleteMessData = catchAsync(async (req, res, next) => {
     data: result,
   });
 });
+const removeMemberFromMess = catchAsync(async (req, res, next) => {
+  const { messId, userId } = req?.body;
+  const result = await messServices.removeMemberFromMess(messId, userId);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Mess User is deleted",
+    data: result,
+  });
+});
 
 export const messController = {
   createMess,
@@ -87,4 +97,5 @@ export const messController = {
   getAllMess,
   updateMessData,
   deleteMessData,
+  removeMemberFromMess,
 };

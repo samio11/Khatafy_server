@@ -35,4 +35,10 @@ router.delete(
   messController.deleteMessData
 );
 
+router.post(
+  "/remove-member-mess",
+  checkAuth([ERole.manager]),
+  messController.removeMemberFromMess
+);
+
 export const messRoutes = router;

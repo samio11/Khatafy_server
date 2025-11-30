@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.bazarServices = exports.createBazar = void 0;
 const mongoose_1 = require("mongoose");
 const AppError_1 = require("../../errors/AppError");
+const QueryBuilder_1 = require("../../utils/QueryBuilder");
 const mess_model_1 = require("../mess/mess.model");
 const bazar_model_1 = require("./bazar.model");
 const createBazar = (payload, messId, addedBy) => __awaiter(void 0, void 0, void 0, function* () {
@@ -33,6 +34,20 @@ const getAllBazarInfoByMess = (messId) => __awaiter(void 0, void 0, void 0, func
 const getABazarInfo = (bazarId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield bazar_model_1.Bazar.findById(bazarId);
     return result;
+});
+const getAllBazar = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    const bazarQuery = new QueryBuilder_1.QueryBuilder(bazar_model_1.Bazar.find(), query);
+    const bazarData = bazarQuery
+        .filter()
+        .search(["note"])
+        .sort()
+        .paginate()
+        .fields();
+    const [data, meta] = yield Promise.all([
+        bazarData.build().populate("mess").populate("approvedBy"),
+        bazarData.getMeta(),
+    ]);
+    return { data, meta };
 });
 const addItemToBazar = (payload, userId, bazarId) => __awaiter(void 0, void 0, void 0, function* () {
     const isAdderValid = yield bazar_model_1.Bazar.findOne({ _id: bazarId, addedBy: userId });
@@ -68,6 +83,19 @@ const changeVerifyOfBazar = (bazarId, managerId) => __awaiter(void 0, void 0, vo
     yield isUserValid.save();
     return isUserValid;
 });
+const getBazarsByManager = (managerId) => __awaiter(void 0, void 0, void 0, function* () {
+    const messList = yield mess_model_1.Mess.find({ managers: managerId });
+    if (messList.length === 0) {
+        throw new AppError_1.AppError(401, "No mess found for this manager");
+    }
+    const messIds = messList.map((m) => m._id);
+    const bazars = yield bazar_model_1.Bazar.find({ mess: { $in: messIds } }).sort({
+        createdAt: -1,
+    });
+    return {
+        bazars,
+    };
+});
 exports.bazarServices = {
     createBazar: exports.createBazar,
     getAllBazarInfoByMess,
@@ -76,4 +104,6 @@ exports.bazarServices = {
     updatedBazar,
     deleteBazar,
     changeVerifyOfBazar,
+    getAllBazar,
+    getBazarsByManager,
 };
