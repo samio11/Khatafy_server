@@ -17,6 +17,7 @@ const user_model_1 = require("../user/user.model");
 const mess_model_1 = require("./mess.model");
 const sendEmail_1 = require("../../utils/sendEmail");
 const QueryBuilder_1 = require("../../utils/QueryBuilder");
+const bazar_model_1 = require("../bazar/bazar.model");
 const createMess = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield mess_model_1.Mess.create(payload);
     return result;
@@ -134,6 +135,31 @@ const removeMemberFromMess = (messId, userId) => __awaiter(void 0, void 0, void 
     const updatedMess = yield mess_model_1.Mess.findByIdAndUpdate(messId, { $pull: { members: userId } }, { new: true });
     return updatedMess;
 });
+const getManagerStateService = (managerId) => __awaiter(void 0, void 0, void 0, function* () {
+    // find all messes this manager manages
+    const messes = yield mess_model_1.Mess.find({ managers: managerId });
+    if (!messes || messes.length === 0) {
+        return null;
+    }
+    const result = [];
+    for (const mess of messes) {
+        // find all bazars for this mess
+        const bazars = yield bazar_model_1.Bazar.find({ mess: mess._id });
+        let totalBazarCost = 0;
+        bazars.forEach((b) => {
+            b.items.forEach((i) => {
+                totalBazarCost += i.quantity * i.price;
+            });
+        });
+        result.push({
+            messId: mess._id,
+            messName: mess.name,
+            monthlyBudget: mess.monthlyBudget,
+            totalBazarCost,
+        });
+    }
+    return result;
+});
 exports.messServices = {
     createMess,
     getAMessData,
@@ -143,4 +169,5 @@ exports.messServices = {
     updateMessData,
     deleteMessData,
     removeMemberFromMess,
+    getManagerStateService,
 };

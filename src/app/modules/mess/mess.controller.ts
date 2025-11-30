@@ -89,6 +89,19 @@ const removeMemberFromMess = catchAsync(async (req, res, next) => {
   });
 });
 
+export const getManagerState = catchAsync(async (req, res) => {
+  const { id } = req.user;
+
+  const result = await messServices.getManagerStateService(id);
+
+  return sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Manager state fetched",
+    data: result,
+  });
+});
+
 export const messController = {
   createMess,
   getAMessData,
@@ -98,4 +111,5 @@ export const messController = {
   updateMessData,
   deleteMessData,
   removeMemberFromMess,
+  getManagerState,
 };

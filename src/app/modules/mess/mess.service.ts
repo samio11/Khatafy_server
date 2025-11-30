@@ -6,6 +6,7 @@ import { IMess } from "./mess.interface";
 import { Mess } from "./mess.model";
 import { sendEmail } from "../../utils/sendEmail";
 import { QueryBuilder } from "../../utils/QueryBuilder";
+import { Bazar } from "../bazar/bazar.model";
 
 const createMess = async (payload: IMess) => {
   const result = await Mess.create(payload);
@@ -150,6 +151,38 @@ const removeMemberFromMess = async (messId: string, userId: string) => {
   return updatedMess;
 };
 
+const getManagerStateService = async (managerId: string) => {
+  // find all messes this manager manages
+  const messes = await Mess.find({ managers: managerId });
+
+  if (!messes || messes.length === 0) {
+    return null;
+  }
+
+  const result = [];
+
+  for (const mess of messes) {
+    // find all bazars for this mess
+    const bazars = await Bazar.find({ mess: mess._id });
+
+    let totalBazarCost = 0;
+    bazars.forEach((b) => {
+      b.items.forEach((i) => {
+        totalBazarCost += i.quantity * i.price;
+      });
+    });
+
+    result.push({
+      messId: mess._id,
+      messName: mess.name,
+      monthlyBudget: mess.monthlyBudget,
+      totalBazarCost,
+    });
+  }
+
+  return result;
+};
+
 export const messServices = {
   createMess,
   getAMessData,
@@ -159,4 +192,5 @@ export const messServices = {
   updateMessData,
   deleteMessData,
   removeMemberFromMess,
+  getManagerStateService,
 };

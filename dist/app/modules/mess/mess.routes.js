@@ -14,4 +14,5 @@ router.get("/:id", mess_controller_1.messController.getAMessData);
 router.patch("/update/:messId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.manager]), mess_controller_1.messController.updateMessData);
 router.delete("/delete/:messId", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.manager]), mess_controller_1.messController.deleteMessData);
 router.post("/remove-member-mess", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.manager]), mess_controller_1.messController.removeMemberFromMess);
+router.get("/manager/state", (0, checkAuth_1.checkAuth)([user_interface_1.ERole.manager]), mess_controller_1.messController.getManagerState);
 exports.messRoutes = router;

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.messController = void 0;
+exports.messController = exports.getManagerState = void 0;
 const catchAsync_1 = require("../../utils/catchAsync");
 const sendResponse_1 = require("../../utils/sendResponse");
 const mess_service_1 = require("./mess.service");
@@ -98,6 +98,16 @@ const removeMemberFromMess = (0, catchAsync_1.catchAsync)((req, res, next) => __
         data: result,
     });
 }));
+exports.getManagerState = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.user;
+    const result = yield mess_service_1.messServices.getManagerStateService(id);
+    return (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        statusCode: 200,
+        message: "Manager state fetched",
+        data: result,
+    });
+}));
 exports.messController = {
     createMess,
     getAMessData,
@@ -107,4 +117,5 @@ exports.messController = {
     updateMessData,
     deleteMessData,
     removeMemberFromMess,
+    getManagerState: exports.getManagerState,
 };

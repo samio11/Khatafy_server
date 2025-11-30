@@ -41,4 +41,10 @@ router.post(
   messController.removeMemberFromMess
 );
 
+router.get(
+  "/manager/state",
+  checkAuth([ERole.manager]),
+  messController.getManagerState
+);
+
 export const messRoutes = router;
