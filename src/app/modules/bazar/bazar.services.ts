@@ -108,6 +108,24 @@ const getBazarsByManager = async (managerId: string) => {
   };
 };
 
+const getAllBazarForMember = async (
+  query: Record<string, string>,
+  memberId: string
+) => {
+  const messQuery = new QueryBuilder(Bazar.find({ addedBy: memberId }), query);
+  const messData = await messQuery
+    .search(["note"])
+    .fields()
+    .paginate()
+    .sort()
+    .filter();
+  const [data, meta] = await Promise.all([
+    messData.build().populate("mess"),
+    messData.getMeta(),
+  ]);
+  return { data, meta };
+};
+
 export const bazarServices = {
   createBazar,
   getAllBazarInfoByMess,
@@ -118,4 +136,5 @@ export const bazarServices = {
   changeVerifyOfBazar,
   getAllBazar,
   getBazarsByManager,
+  getAllBazarForMember,
 };

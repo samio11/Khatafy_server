@@ -190,7 +190,6 @@ const getMemberMess = async (memberId: string) => {
   const messes = await Mess.find({ members: new Types.ObjectId(memberId) })
     .populate("managers", "name email")
     .populate("members", "name email");
-
   return messes;
 };
 

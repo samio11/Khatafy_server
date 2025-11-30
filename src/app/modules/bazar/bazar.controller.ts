@@ -128,6 +128,22 @@ const getBazarsByManager = catchAsync(
     });
   }
 );
+const getAllBazarForMember = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const query = req?.query || "";
+    const { id } = req?.user as JwtPayload;
+    const result = await bazarServices.getAllBazarForMember(
+      query as Record<string, string>,
+      id
+    );
+    sendResponse(res, {
+      success: true,
+      statusCode: 200,
+      message: "Bazar Data Getted for Member",
+      data: result,
+    });
+  }
+);
 
 export const bazarController = {
   createBazar,
@@ -139,4 +155,5 @@ export const bazarController = {
   changeVerifyOfBazar,
   getAllBazar,
   getBazarsByManager,
+  getAllBazarForMember,
 };

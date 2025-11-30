@@ -33,6 +33,11 @@ router.post(
   bazarController.changeVerifyOfBazar
 );
 router.get("/bazar-all", bazarController.getAllBazar);
+router.get(
+  "/member",
+  checkAuth([ERole.member]),
+  bazarController.getAllBazarForMember
+);
 router.get("/bazar-all/:messId", bazarController.getAllBazarInfoByMess);
 router.get("/bazar/:bazarId", bazarController.getABazarInfo);
 router.get(
