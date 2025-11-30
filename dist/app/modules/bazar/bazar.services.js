@@ -72,9 +72,9 @@ const deleteBazar = (bazarId, userId) => __awaiter(void 0, void 0, void 0, funct
     return result;
 });
 const changeVerifyOfBazar = (bazarId, managerId) => __awaiter(void 0, void 0, void 0, function* () {
-    const isUserValid = yield bazar_model_1.Bazar.findOne({ _id: bazarId, addedBy: managerId });
+    const isUserValid = yield bazar_model_1.Bazar.findById(bazarId);
     if (!isUserValid)
-        throw new AppError_1.AppError(401, "This manager is not valid Added for this bazar");
+        throw new AppError_1.AppError(401, "This Bazar is not valid");
     if (isUserValid.approved === true) {
         throw new AppError_1.AppError(400, "Bazar already verified");
     }
@@ -89,9 +89,12 @@ const getBazarsByManager = (managerId) => __awaiter(void 0, void 0, void 0, func
         throw new AppError_1.AppError(401, "No mess found for this manager");
     }
     const messIds = messList.map((m) => m._id);
-    const bazars = yield bazar_model_1.Bazar.find({ mess: { $in: messIds } }).sort({
+    const bazars = yield bazar_model_1.Bazar.find({ mess: { $in: messIds } })
+        .sort({
         createdAt: -1,
-    });
+    })
+        .populate("addedBy")
+        .populate("mess");
     return {
         bazars,
     };

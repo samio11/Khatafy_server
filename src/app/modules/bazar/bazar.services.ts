@@ -78,9 +78,8 @@ const deleteBazar = async (bazarId: string, userId: string) => {
 };
 
 const changeVerifyOfBazar = async (bazarId: string, managerId: string) => {
-  const isUserValid = await Bazar.findOne({ _id: bazarId, addedBy: managerId });
-  if (!isUserValid)
-    throw new AppError(401, "This manager is not valid Added for this bazar");
+  const isUserValid = await Bazar.findById(bazarId);
+  if (!isUserValid) throw new AppError(401, "This Bazar is not valid");
   if (isUserValid.approved === true) {
     throw new AppError(400, "Bazar already verified");
   }
@@ -92,13 +91,18 @@ const changeVerifyOfBazar = async (bazarId: string, managerId: string) => {
 
 const getBazarsByManager = async (managerId: string) => {
   const messList = await Mess.find({ managers: managerId });
+
   if (messList.length === 0) {
     throw new AppError(401, "No mess found for this manager");
   }
   const messIds = messList.map((m) => m._id);
-  const bazars = await Bazar.find({ mess: { $in: messIds } }).sort({
-    createdAt: -1,
-  });
+
+  const bazars = await Bazar.find({ mess: { $in: messIds } })
+    .sort({
+      createdAt: -1,
+    })
+    .populate("addedBy")
+    .populate("mess");
   return {
     bazars,
   };

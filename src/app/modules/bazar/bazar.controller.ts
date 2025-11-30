@@ -119,11 +119,11 @@ const getAllBazar = catchAsync(
 const getBazarsByManager = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req?.user as JwtPayload;
-    const result = await bazarServices.getAllBazar(id);
+    const result = await bazarServices.getBazarsByManager(id);
     sendResponse(res, {
       success: true,
       statusCode: 200,
-      message: "Bazar Data Getted",
+      message: "Bazar Data Getted for manager",
       data: result,
     });
   }
